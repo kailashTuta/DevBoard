@@ -33,7 +33,11 @@ jobs:
                 cache-dependency-path: frontend/package-lock.json
 
             - name: Run Dependency Scan for Node.js
-              run: npm audit
+              run: |
+                  npm audit
+                  npm audit fix 
+                  npm aduit fix --force
+                  npm audit
               working-directory: frontend    
 
             - name: Upload Report to Artifacts
