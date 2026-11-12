@@ -1,0 +1,36 @@
+name: DevSecOps
+on:
+    push:
+        branches: [main]
+
+jobs:
+    code-quality:
+        uses: ./.github/workflows/code-quality.yaml
+
+    # secret-scanning:
+    #     uses: ./.github/workflows/secret-scanning.yaml
+    
+    # dependency-scannings:
+    #     uses: ./.github/workflows/dependency-scan.yaml
+    
+    # docker-scanning:
+    #     uses: ./.github/workflows/docker-scan.yaml
+    #     secrets: inherit
+
+    # sonar-scan:
+    #     uses: ./.github/workflows/sonar-scan.yaml
+
+    # code-tests:
+    #     uses: ./.github/workflows/code-tests.yaml
+    
+    # docker-push:
+    #     needs: [code-quality, secret-scanning, dependency-scannings, docker-scanning, sonar-scan, code-tests]
+    #     uses: ./.github/workflows/docker-push.yaml
+    #     secrets: inherit
+
+    # dast:
+    #     needs: [docker-push]
+    #     uses: ./.github/workflows/dast.yaml
+    #     secrets: inherit
+
+    
