@@ -16,9 +16,6 @@ FROM alpine:3.20
 
 WORKDIR /app
 
-# Install CA certificates for HTTPS requests
-RUN apk --no-cache add ca-certificates
-
 COPY --from=builder /app/devboard-backend ./devboard-backend
 
 EXPOSE 8080
