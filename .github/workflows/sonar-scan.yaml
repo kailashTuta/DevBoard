@@ -14,9 +14,18 @@ jobs:
               with:
                 node-version: 22
 
+            - name: verify Node.js version
+              run: |
+                node --version
+                which node
+                npm --version
+                node -e "console.log('Node.js is working')"
+
             - name: SonarQube Scan
               uses: SonarSource/sonarqube-scan-action@v8.2.0
+              with:
+                args: >
+                  -X
               env:
                 SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
                 SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-                SONAR_SCANNER_SKIP_NODE_PROVISIONING: "true"
