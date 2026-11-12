@@ -13,9 +13,9 @@ jobs:
     dependency-scannings:
         uses: ./.github/workflows/dependency-scan.yaml
     
-    # docker-scanning:
-    #     uses: ./.github/workflows/docker-scan.yaml
-    #     secrets: inherit
+    docker-scanning:
+        uses: ./.github/workflows/docker-scan.yaml
+        secrets: inherit
 
     # sonar-scan:
     #     uses: ./.github/workflows/sonar-scan.yaml
