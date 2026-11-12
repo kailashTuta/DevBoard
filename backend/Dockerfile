@@ -1,21 +1,30 @@
+# Build stage
 FROM golang:1.22-alpine AS builder
 
 WORKDIR /app
 
-# Download deps first for better layer caching.
+# Download dependencies
 COPY go.mod go.sum ./
 RUN go mod download
 
-# Build the binary.
+# Build application
 COPY . .
-RUN CGO_ENABLED=0 go build -o devboard-backend .
+RUN CGO_ENABLED=0 GOOS=linux go build -o devboard-backend .
 
-FROM dhi.io/golang:1.22-alpine3.20
+# Runtime stage
+FROM alpine:3.20
 
-COPY --from=builder /app/devboard-backend /devboard-backend
+WORKDIR /app
+
+# Install CA certificates for HTTPS requests
+RUN apk --no-cache add ca-certificates
+
+COPY --from=builder /app/devboard-backend ./devboard-backend
 
 EXPOSE 8080
 
-USER nonroot
+# Run as non-root
+RUN adduser -D -H appuser
+USER appuser
 
 ENTRYPOINT ["./devboard-backend"]
