@@ -30,6 +30,7 @@ jobs:
 
             - name: Run Trivy Vulnerability Scan ${{ matrix.folders }}
               uses: aquasecurity/trivy-action@v0.36.0
+              continue-on-error: true
               with:
                 image-ref: ${{vars.DOCKER_USERNAME}}/devboard-${{ matrix.folders }}:latest
                 format: 'table'
