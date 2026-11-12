@@ -6,20 +6,20 @@ jobs:
     sonar-scan:
         runs-on: self-hosted
         steps:
+            - name: Cleanup before analysis
+              run: |
+                rm -rf "${GITHUB_WORKSPACE}/.scannerwork"
+
+                sudo journalctl --vacuum-time=2d
+
+                echo "Memory after cleanup:"
+                free -h
+              
+                echo "Disk space after cleanup:"
+                df -h
+            
             - name: Checkout code
               uses: actions/checkout@v7
-
-            - name: Set up Node.js for Sonar analysis
-              uses: actions/setup-node@v4
-              with:
-                node-version: 22
-
-            - name: verify Node.js version
-              run: |
-                node --version
-                which node
-                npm --version
-                node -e "console.log('Node.js is working')"
 
             - name: SonarQube Scan
               uses: SonarSource/sonarqube-scan-action@v8.2.0
