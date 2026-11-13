@@ -28,10 +28,10 @@ jobs:
     code-tests:
         uses: ./.github/workflows/code-tests.yaml
     
-    # docker-push:
-    #     needs: [code-quality, secret-scanning, dependency-scannings, docker-scanning, sonar-scan, code-tests]
-    #     uses: ./.github/workflows/docker-push.yaml
-    #     secrets: inherit
+    docker-push:
+        needs: [code-quality, secret-scanning, dependency-scannings, docker-scanning, sonar-scan, code-tests]
+        uses: ./.github/workflows/docker-push.yaml
+        secrets: inherit
 
     # dast:
     #     needs: [docker-push]
