@@ -1,0 +1,26 @@
+name: deploy
+on:
+  workflow_call:
+    
+jobs:
+    deploy:
+        runs-on: self-hosted
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v7 
+
+            - name: Copy example env to env
+              run: cp .env.example .env
+
+            - name: Docker Setup [Login]
+              uses: docker/login-action@v4
+              with:
+                username: ${{ vars.DOCKER_USERNAME }}
+                password: ${{ secrets.DOCKER_PASSWORD }}
+            
+            - name: Deploy Containers with Docker Compose
+              run: |
+                docker compose pull
+                docker compose up -d
+            
+            
