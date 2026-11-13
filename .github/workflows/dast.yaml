@@ -9,14 +9,16 @@ jobs:
               uses: actions/checkout@v7 
 
             - name: Wait for services to be ready
+              env:
+                EC2_HOST: ${{ secrets.EC2_HOST }}
               run: |
-                timeout 60s sh -c 'until curl -s https://$ {{ secrets.EC2_HOST }}:8080'
+                timeout 60s sh -c 'until curl -fsS "https://${EC2_HOST}:8080"; do sleep 2; done'
 
             - name: Run OWASP ZAP Baseline Scan
               uses: zaproxy/action-baseline@v0.7.0
               with:
                 token: ${{ secrets.GITHUB_TOKEN }}
-                target: 'https://$ {{ secrets.EC2_HOST }}:8080'
+                target: 'https://${{ secrets.EC2_HOST }}:8080'
                 fail_action: false
                 allow_issue_writing: false
                 
