@@ -1,0 +1,28 @@
+name: Docker Push
+
+on:
+    workflow_call:
+
+jobs:
+    frontend:
+        strategy:
+            fail-fast: false
+            matrix: 
+                folder: ['frontend', 'backend']
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v7
+
+            - name: Docker Setup [Login]
+              uses: docker/login-action@v4
+              with:
+                username: ${{ vars.DOCKER_USERNAME }}
+                password: ${{ secrets.DOCKER_PASSWORD }}
+
+            - name: Build and Push ${{ matrix.folder }} Docker Image
+              uses: docker/build-push-action@v5
+              with:
+                context: ./${{ matrix.folder }}
+                push: true 
+                tags: ${{ vars.DOCKER_USERNAME }}/devboard-${{ matrix.folder }}:latest
