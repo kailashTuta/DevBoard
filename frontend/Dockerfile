@@ -2,7 +2,7 @@
 FROM node:20.19.2-alpine3.22 AS build
 WORKDIR /app
 COPY package*.json ./
-RUN apk add --no-cache --upgrade apk-tools && apk upgrade --no-cache && npm ci --legacy-peer-deps --no-audit
+RUN apk add --no-cache --upgrade apk-tools && apk upgrade --no-cache && npm ci --no-audit
 COPY . .
 RUN npm run build
 
