@@ -5,7 +5,7 @@ WORKDIR /app
 
 # Download dependencies
 COPY go.mod go.sum ./
-RUN apk add --no-cache --upgrade apk-tools && apk upgrade --no-cache && go mod download
+RUN apk upgrade --no-cache && go mod download
 
 # Build application
 COPY . .
@@ -21,7 +21,7 @@ COPY --from=builder /app/devboard-backend ./devboard-backend
 EXPOSE 8080
 
 # Run as non-root
-RUN apk add --no-cache --upgrade apk-tools && apk upgrade --no-cache && adduser -D -H appuser
+RUN apk upgrade --no-cache && adduser -D -H appuser
 USER appuser
 
 ENTRYPOINT ["./devboard-backend"]

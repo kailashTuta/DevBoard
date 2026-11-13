@@ -2,14 +2,14 @@
 FROM node:20.19.2-alpine3.22 AS build
 WORKDIR /app
 COPY package*.json ./
-RUN apk add --no-cache --upgrade apk-tools && apk upgrade --no-cache && npm ci --no-audit
+RUN apk upgrade --no-cache && npm ci --no-audit
 COPY . .
 RUN npm run build
 
 # Stage 2 — small image that only serves the build (no nginx)
 FROM node:20.19.2-alpine3.22
 WORKDIR /app
-RUN apk add --no-cache --upgrade apk-tools && apk upgrade --no-cache && npm install -g vite@^5.4.21 && npm cache clean --force
+RUN apk upgrade --no-cache && npm install -g vite@^5.4.21 && npm cache clean --force
 COPY --from=build /app/dist ./dist
 COPY vite.preview.config.js ./vite.config.js
 USER node
