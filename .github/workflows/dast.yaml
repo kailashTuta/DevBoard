@@ -1,4 +1,4 @@
-name: DAST
+name: OWASP ZAP DAST
 on:
   workflow_call:
 jobs:
@@ -12,13 +12,13 @@ jobs:
               env:
                 EC2_HOST: ${{ secrets.EC2_HOST }}
               run: |
-                timeout 60s sh -c 'until curl -fsS "https://${EC2_HOST}:8080"; do sleep 2; done'
+                timeout 60s sh -c 'until curl -fsS "http://${EC2_HOST}:8080"; do sleep 2; done'
 
             - name: Run OWASP ZAP Baseline Scan
               uses: zaproxy/action-baseline@v0.7.0
               with:
                 token: ${{ secrets.GITHUB_TOKEN }}
-                target: 'https://${{ secrets.EC2_HOST }}:8080'
+                target: 'http://${{ secrets.EC2_HOST }}:8080'
                 fail_action: false
                 allow_issue_writing: false
                 
